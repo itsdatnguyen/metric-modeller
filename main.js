@@ -2,32 +2,32 @@ class MetricModeller {
   constructor() {
     this.data = [
       {
-        name: 'Kappa',
+        name: 'project 1',
         language: 8,
-        fps: 58,
-        time: 55,
-        kloc: 30
+        fps: 10,
+        time: 20,
+        kloc: 5
       },
       {
-        name: 'Javascript',
+        name: 'project 2',
         language: 8,
-        fps: 60,
-        time: 40,
-        kloc: 37
+        fps: 15,
+        time: 15,
+        kloc: 2
       },
       {
-        name: 'C',
+        name: 'project 3',
         language: 2.5,
-        fps: 50,
-        time: 90,
-        kloc: 80
+        fps: 12,
+        time: 30,
+        kloc: 8
       },
       {
-        name: 'Haskell',
+        name: 'project 4',
         language: 8.5,
-        fps: 70,
-        time: 50,
-        kloc: 35
+        fps: 30,
+        time: 40,
+        kloc: 3
       },
     ]
   }
@@ -49,7 +49,7 @@ class MetricModeller {
   getEstimatedTime(formData) {
     let dataset = this.getAverageDataset();
 
-    return dataset.time * dataset.language / formData.language * formData.kloc / dataset.kloc * formData.fps / dataset.fps
+    return (dataset.time * dataset.language / 10) * formData.language * formData.kloc / dataset.kloc * formData.fps / dataset.fps / formData.experience;
   }
 }
 
@@ -59,7 +59,8 @@ function getFormData() {
   var elementIds = [
     'kloc',
     'fps',
-    'language'
+    'language',
+    'experience'
   ];
 
   for (var id of elementIds) {
