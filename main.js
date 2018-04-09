@@ -71,6 +71,13 @@ class MetricModeller {
 
     return time;
   }
+
+  getEstimatedCost(totalTime) {
+    var employeePay = $('#programmer-pay').val();
+    var employeeNumber = $('#number-programmers').val();
+    var estimatedCost = employeePay * employeeNumber * totalTime;
+    return estimatedCost;
+  }
 }
 
 function getFormData() {
@@ -82,7 +89,9 @@ function getFormData() {
     'language',
     'experience',
     'complexity',
-    'testing'
+    'testing',
+    'programmer-pay',
+    'number-programmers'
   ];
 
   for (var id of elementIds) {
@@ -111,9 +120,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var data = getFormData();
     var estimatedTime = modeller.getEstimatedTime(data);
+    var estimatedCost = modeller.getEstimatedCost(estimatedTime);
 
     setOutput({
-      'output-hours': estimatedTime.toFixed(2)
+      'output-hours': estimatedTime.toFixed(2),
+      'output-cost': estimatedCost.toFixed(2)
     });
   });
 });
