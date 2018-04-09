@@ -2,28 +2,28 @@ class MetricModeller {
   constructor() {
     this.data = [
       {
-        name: 'project 1',
+        name: 'Kappa',
         language: 8,
         fps: 10,
         time: 20,
         kloc: 5
       },
       {
-        name: 'project 2',
+        name: 'Javascript',
         language: 8,
         fps: 15,
         time: 15,
         kloc: 2
       },
       {
-        name: 'project 3',
+        name: 'C',
         language: 2.5,
         fps: 12,
         time: 30,
         kloc: 8
       },
       {
-        name: 'project 4',
+        name: 'Haskell',
         language: 8.5,
         fps: 30,
         time: 40,
