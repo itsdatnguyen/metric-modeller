@@ -102,12 +102,9 @@ function getFormData() {
     'testing',
     'programmer-pay',
     'number-programmers',
-<<<<<<< HEAD
     'database-complexity',
-    'group-cohesion'
-=======
+    'group-cohesion',
     'version-control'
->>>>>>> origin/master
   ];
 
   for (var id of elementIds) {
