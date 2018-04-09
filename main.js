@@ -60,7 +60,7 @@ class MetricModeller {
     // Function points. More function points means a longer project
     time = time * formData.fps / dataset.fps;
 
-    // Team experience. A more experienced taem will be more productive.
+    // Team experience. A more experienced team will be more productive.
     time = time / formData.experience;
 
     // Project complexity. A more complex project will take longer to complete.
@@ -68,6 +68,9 @@ class MetricModeller {
 
     // Project testing coverage. A project with more testing code coverage will last much more longer.
     time = time * formData.testing;
+
+    // Project Software Reliability. A project with more reliable software will shorten time.
+    time = time / formData.reliability;
 
     return time;
   }
@@ -91,7 +94,8 @@ function getFormData() {
     'complexity',
     'testing',
     'programmer-pay',
-    'number-programmers'
+    'number-programmers',
+    'reliability'
   ];
 
   for (var id of elementIds) {
