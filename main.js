@@ -69,6 +69,11 @@ class MetricModeller {
     // Project testing coverage. A project with more testing code coverage will last much more longer.
     time = time * formData.testing;
 
+    // Version control. A project with no version control and lots of programmer will have a longer duration.
+    if (formData['version-control'] == 'false') {
+      time = time * Math.sqrt(formData['number-programmers'])
+    }
+
     return time;
   }
 
@@ -91,7 +96,8 @@ function getFormData() {
     'complexity',
     'testing',
     'programmer-pay',
-    'number-programmers'
+    'number-programmers',
+    'version-control'
   ];
 
   for (var id of elementIds) {
