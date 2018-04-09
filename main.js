@@ -66,6 +66,9 @@ class MetricModeller {
     // Project complexity. A more complex project will take longer to complete.
     time = time * formData.complexity;
 
+    // Project testing coverage. A project with more testing code coverage will last much more longer.
+    time = time * formData.testing;
+
     return time;
   }
 }
@@ -78,7 +81,8 @@ function getFormData() {
     'fps',
     'language',
     'experience',
-	  'complexity'
+    'complexity',
+    'testing'
   ];
 
   for (var id of elementIds) {
