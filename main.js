@@ -72,10 +72,10 @@ class MetricModeller {
     return time;
   }
 
-  getEstimatedCost(totalTime) {
-    var employeePay = $('#programmer-pay').val();
-    var employeeNumber = $('#number-programmers').val();
-    var estimatedCost = employeePay * employeeNumber * totalTime;
+  getEstimatedCost(estimatedTime, formData) {
+    var employeePay = formData['programmer-pay'];
+    var employeeNumber = formData['number-programmers'];
+    var estimatedCost = employeePay * employeeNumber * estimatedTime;
     return estimatedCost;
   }
 }
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var data = getFormData();
     var estimatedTime = modeller.getEstimatedTime(data);
-    var estimatedCost = modeller.getEstimatedCost(estimatedTime);
+    var estimatedCost = modeller.getEstimatedCost(estimatedTime, data);
 
     setOutput({
       'output-hours': estimatedTime.toFixed(2),
