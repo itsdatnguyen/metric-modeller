@@ -85,7 +85,9 @@ function getFormData() {
     'fps',
     'language',
     'experience',
-	  'complexity'
+    'complexity',
+    'programmer-pay',
+    'number-programmers'
   ];
 
   for (var id of elementIds) {
