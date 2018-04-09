@@ -46,17 +46,39 @@
               </div>
 
               <div class="form-group">
-                <label for="language">Language</label>
-                <select name="language" id="language" class="form-control" required>
-                  <option value="6">C++</option>
-                  <option value="6">C#</option>
-                  <option value="12">Objective-C</option>
-                  <option value="22">HTML5</option>
-                  <option value="6">Java</option>
-                  <option value="25">SQL</option>
-                  <option value="5">PHP</option>
-                  <option value="6">Python</option>
-                  <option value="15">VB .NET</option>
+                <label for="group-cohesion">Group Cohesion</label>
+                <select name="group-cohesion" id="group-cohesion" class="form-control" required>
+                    <option value="1.1">Very Low</option>
+                    <option value="1.05">Low</option>
+                    <option selected="selected" value="1">Nominal</option>
+                    <option value="0.95">High</option>
+                    <option value="0.9">Very High</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                  <label for="language">Language</label>
+                  <select name="language" id="language" class="form-control" required>
+                    <option value="6">C++</option>
+                    <option value="6">C#</option>
+                    <option value="12">Objective-C</option>
+                    <option value="22">HTML5</option>
+                    <option value="6">Java</option>
+                    <option value="25">SQL</option>
+                    <option value="5">PHP</option>
+                    <option value="6">Python</option>
+                    <option value="15">VB .NET</option>
+                  </select>
+              </div>
+
+              <div class="form-group">
+                <label for="database-complexity">Database Complexity</label>
+                <select name="database-complexity" id="database-complexity" class="form-control" required>
+                    <option value="1">Very Low</option>
+                    <option value="1.05">Low</option>
+                    <option selected="selected" value="1.10">Nominal</option>
+                    <option value="1.15">High</option>
+                    <option value="1.2">Very High</option>
                 </select>
               </div>
 
@@ -65,7 +87,7 @@
                 <select name="experience" id="experience" class="form-control" required>
                   <option value="1">Very Low</option>
                   <option value="1.25">Low</option>
-                  <option value="1.5">Nominal</option>
+                  <option selected="selected" value="1.5">Nominal</option>
                   <option value="1.75">High</option>
                   <option value="2">Very High</option>
                 </select>
@@ -76,7 +98,7 @@
                 <select name="complexity" id="complexity" class="form-control" required>
                   <option value="0.70">Very Low</option>
                   <option value="0.85">Low</option>
-                  <option value="1">Nominal</option>
+                  <option selected="selected" value="1">Nominal</option>
                   <option value="1.15">High</option>
                   <option value="1.30">Very High</option>
 				          <option value="1.65">Extra High</option>

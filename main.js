@@ -69,6 +69,12 @@ class MetricModeller {
     // Project testing coverage. A project with more testing code coverage will last much more longer.
     time = time * formData.testing;
 
+    // Time to create queries and to database or setup database
+    time = time * formData['database-complexity'];
+
+    // Effect of group cohesion on time it takes to finish project
+    time = time * formData['group-cohesion'];
+
     return time;
   }
 
@@ -91,7 +97,9 @@ function getFormData() {
     'complexity',
     'testing',
     'programmer-pay',
-    'number-programmers'
+    'number-programmers',
+    'database-complexity',
+    'group-cohesion'
   ];
 
   for (var id of elementIds) {
