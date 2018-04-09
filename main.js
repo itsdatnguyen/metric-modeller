@@ -71,7 +71,9 @@ class MetricModeller {
 
     // Project Software Reliability. A project with more reliable software will shorten time.
     time = time / formData.reliability;
-    
+
+    time = time / Math.sqrt(formData['number-programmers']);
+
     // Version control. A project with no version control and lots of programmer will have a longer duration.
     if (formData['version-control'] == 'false') {
       time = time * Math.sqrt(formData['number-programmers'])
