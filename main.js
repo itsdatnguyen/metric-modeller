@@ -49,7 +49,7 @@ class MetricModeller {
   getEstimatedTime(formData) {
     let dataset = this.getAverageDataset();
 
-    return (dataset.time * dataset.language / 10) * formData.language * formData.kloc / dataset.kloc * formData.fps / dataset.fps / formData.experience / formData.complexity;
+    return (dataset.time * dataset.language / 10) * formData.language * formData.kloc / dataset.kloc * formData.fps / dataset.fps / formData.experience / formData.complexity / formData.totalDevs;
   }
 }
 
@@ -61,7 +61,8 @@ function getFormData() {
     'fps',
     'language',
     'experience',
-	'complexity'
+    'complexity',
+    'totalDevs'
   ];
 
   for (var id of elementIds) {
