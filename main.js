@@ -74,6 +74,10 @@ class MetricModeller {
 
     // Effect of group cohesion on time it takes to finish project
     time = time * formData['group-cohesion'];
+    // Version control. A project with no version control and lots of programmer will have a longer duration.
+    if (formData['version-control'] == 'false') {
+      time = time * Math.sqrt(formData['number-programmers'])
+    }
 
     return time;
   }
@@ -98,8 +102,12 @@ function getFormData() {
     'testing',
     'programmer-pay',
     'number-programmers',
+<<<<<<< HEAD
     'database-complexity',
     'group-cohesion'
+=======
+    'version-control'
+>>>>>>> origin/master
   ];
 
   for (var id of elementIds) {
