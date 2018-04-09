@@ -60,7 +60,7 @@ class MetricModeller {
     // Function points. More function points means a longer project
     time = time * formData.fps / dataset.fps;
 
-    // Team experience. A more experienced taem will be more productive.
+    // Team experience. A more experienced team will be more productive.
     time = time / formData.experience;
 
     // Project complexity. A more complex project will take longer to complete.
@@ -74,6 +74,10 @@ class MetricModeller {
 
     // Effect of group cohesion on time it takes to finish project
     time = time * formData['group-cohesion'];
+    
+    // Project Software Reliability. A project with more reliable software will shorten time.
+    time = time / formData.reliability;
+    
     // Version control. A project with no version control and lots of programmer will have a longer duration.
     if (formData['version-control'] == 'false') {
       time = time * Math.sqrt(formData['number-programmers'])
@@ -104,7 +108,8 @@ function getFormData() {
     'number-programmers',
     'database-complexity',
     'group-cohesion',
-    'version-control'
+    'reliability',
+    'version-control',
   ];
 
   for (var id of elementIds) {
