@@ -49,7 +49,24 @@ class MetricModeller {
   getEstimatedTime(formData) {
     let dataset = this.getAverageDataset();
 
-    return (dataset.time * dataset.language / 10) * formData.language * formData.kloc / dataset.kloc * formData.fps / dataset.fps / formData.experience / formData.complexity;
+    let time = dataset.time;
+
+    // language productivity. A higher value means less lines of code written for the same functionality.
+    time = time * dataset.language / formData.language;
+
+    // 1000 lines of code
+    time = time * formData.kloc / dataset.kloc;
+
+    // Function points. More function points means a longer project
+    time = time * formData.fps / dataset.fps;
+
+    // Team experience. A more experienced taem will be more productive.
+    time = time / formData.experience;
+
+    // Project complexity. A more complex project will take longer to complete.
+    time = time * formData.complexity;
+
+    return time;
   }
 }
 
@@ -61,7 +78,7 @@ function getFormData() {
     'fps',
     'language',
     'experience',
-	'complexity'
+	  'complexity'
   ];
 
   for (var id of elementIds) {
