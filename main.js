@@ -80,6 +80,8 @@ class MetricModeller {
 
     time = time / Math.sqrt(formData['number-programmers']);
 
+    time = time + Math.sqrt(getCommChannels(formData['number-programmers']));
+
     // Version control. A project with no version control and lots of programmer will have a longer duration.
     if (formData['version-control'] == 'false') {
       time = time * Math.sqrt(formData['number-programmers'])
@@ -123,6 +125,10 @@ function getFormData() {
   return data;
 }
 
+function getCommChannels(devCount) {
+  return (devCount * (devCount - 1) / 2);
+}
+
 function setOutput(output) {
   for (var item in output) {
     var element = document.getElementById(item);
@@ -144,7 +150,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setOutput({
       'output-hours': estimatedTime.toFixed(2),
-      'output-cost': estimatedCost.toFixed(2)
+      'output-cost': estimatedCost.toFixed(2),
+      'output-comm-channels': getCommChannels(data['number-programmers'])
     });
   });
 });
