@@ -1,35 +1,78 @@
 class MetricModeller {
   constructor() {
-    this.data = [
+    this.languageProd = [
       {
-        name: 'Kappa',
-        language: 8,
-        fps: 10,
-        time: 20,
-        kloc: 5
+        name: 'C++',
+        level: 6.0,
+        fpManMo: 14.84854613,  // function points per man per month
+        locFp: 53.0  // lines of code per function point
       },
       {
-        name: 'Javascript',
-        language: 8,
-        fps: 15,
-        time: 15,
-        kloc: 2
+        name: 'C#',
+        level: 6.0,
+        fpManMo: 14.84854613,
+        locFp: 54.0
       },
       {
-        name: 'C',
-        language: 2.5,
-        fps: 12,
-        time: 30,
-        kloc: 8
+        name: 'Objective-C',
+        level: 12.0,
+        fpManMo: 19.42553559,
+        locFp: 27.0
       },
       {
-        name: 'Haskell',
-        language: 8.5,
-        fps: 30,
-        time: 40,
-        kloc: 3
+        name: 'HTML5',
+        level: 22.0,
+        fpManMo: 23.42797153,
+        locFp: 15.0
+      },
+      {
+        name: 'Java',
+        level: 6.0,
+        fpManMo: 14.84854613,
+        locFp: 53.0
+      },
+      {
+        name: 'SQL',
+        level: 25.0,
+        fpManMo: 24.27208085,
+        locFp: 13.0
+      },
+      {
+        name: 'PHP',
+        level: 5.0,
+        fpManMo: 13.64464042,
+        locFp: 67.0
+      },
+      {
+        name: 'Python',
+        level: 6.0,
+        fpManMo: 14.84854613,
+        locFp: 53.0
+      },
+      {
+        name: 'VB .net',
+        level: 15.0,
+        fpManMo: 20.89899709,
+        locFp: 20.0
       },
     ]
+  }
+
+  calculateCost(formData, time) {
+    let cost = time * formData.employeeNumber * (formData['programmer-pay'] / 12.0);
+    return cost;
+  }
+
+  calculateLinesOfCode(formData) {
+    let languageProd = this.languageProd[parseInt(formData.language)];
+    let linesOfCode = languageProd.locFp * formData.fps;
+    return linesOfCode;
+  }
+
+  calcualteBaseMonths(formData) {
+    let languageProd = this.languageProd[parseInt(formData.language)];
+    let months = languageProd.fpManMo / formData.employeeNumber / formData.fps;
+    return months;
   }
 
   getAverageDataset() {
@@ -77,7 +120,11 @@ class MetricModeller {
     
     // Project Software Reliability. A project with more reliable software will shorten time.
     time = time / formData.reliability;
-    
+
+    time = time / Math.sqrt(formData['number-programmers']);
+
+    time = time + Math.sqrt(getCommChannels(formData['number-programmers']));
+
     // Version control. A project with no version control and lots of programmer will have a longer duration.
     if (formData['version-control'] == 'false') {
       time = time * Math.sqrt(formData['number-programmers'])
@@ -97,6 +144,7 @@ class MetricModeller {
 function getFormData() {
   var data = {};
 
+  /*
   var elementIds = [
     'kloc',
     'fps',
@@ -111,6 +159,14 @@ function getFormData() {
     'reliability',
     'version-control',
   ];
+  */
+
+  var elementIds = [
+    'fps',
+    'language',
+    'programmer-pay',
+    'number-programmers',
+  ];
 
   for (var id of elementIds) {
     var element = document.getElementById(id);
@@ -119,6 +175,10 @@ function getFormData() {
   }
 
   return data;
+}
+
+function getCommChannels(devCount) {
+  return (devCount * (devCount - 1) / 2);
 }
 
 function setOutput(output) {
@@ -137,12 +197,19 @@ document.addEventListener('DOMContentLoaded', function() {
     var modeller = new MetricModeller();
 
     var data = getFormData();
-    var estimatedTime = modeller.getEstimatedTime(data);
-    var estimatedCost = modeller.getEstimatedCost(estimatedTime, data);
-
+    console.log(data);
+    //var estimatedTime = modeller.getEstimatedTime(data);
+    //var estimatedCost = modeller.getEstimatedCost(estimatedTime, data);
+    var months = modeller.calcualteBaseMonths(data);
+    var linesOfCode = modeller.calculateLinesOfCode(data);
+    var cost = modeller.calculateCost(data, months);
+    console.log(months, linesOfCode, cost);
+    /*
     setOutput({
-      'output-hours': estimatedTime.toFixed(2),
-      'output-cost': estimatedCost.toFixed(2)
+      'output-hours': months.toFixed(2),
+      'output-cost': cost.toFixed(2),
+      'output-comm-channels': getCommChannels(data['number-programmers'])
     });
+    */
   });
 });
