@@ -58,21 +58,18 @@ class MetricModeller {
     ]
   }
 
-  calculateCost(formData, time) {
-    let cost = time * formData.employeeNumber * (formData['programmer-pay'] / 12.0);
-    return cost;
+  calculateCost(formData, months) {
+    return months * (formData['number-programmers'] * (formData['programmer-pay'] / 12));
   }
 
   calculateLinesOfCode(formData) {
-    let languageProd = this.languageProd[parseInt(formData.language)];
-    let linesOfCode = languageProd.locFp * formData.fps;
-    return linesOfCode;
+    let languageProd = this.languageProd[formData.language];
+    return languageProd.locFp * formData.fps;
   }
 
   calcualteBaseMonths(formData) {
-    let languageProd = this.languageProd[parseInt(formData.language)];
-    let months = languageProd.fpManMo / formData.employeeNumber / formData.fps;
-    return months;
+    let languageProd = this.languageProd[formData.language];
+    return (formData['number-programmers'] * formData.fps) / languageProd.fpManMo;
   }
 
   getAverageDataset() {
@@ -197,19 +194,18 @@ document.addEventListener('DOMContentLoaded', function() {
     var modeller = new MetricModeller();
 
     var data = getFormData();
-    console.log(data);
     //var estimatedTime = modeller.getEstimatedTime(data);
     //var estimatedCost = modeller.getEstimatedCost(estimatedTime, data);
-    var months = modeller.calcualteBaseMonths(data);
+    var totalMonths = modeller.calcualteBaseMonths(data);
     var linesOfCode = modeller.calculateLinesOfCode(data);
-    var cost = modeller.calculateCost(data, months);
-    console.log(months, linesOfCode, cost);
-    /*
+    var totalCost = modeller.calculateCost(data, totalMonths);
+    console.log(totalMonths, linesOfCode, totalCost);
+    
     setOutput({
-      'output-hours': months.toFixed(2),
-      'output-cost': cost.toFixed(2),
+      'output-hours': totalMonths.toFixed(2),
+      'output-cost': totalCost.toFixed(2),
       'output-comm-channels': getCommChannels(data['number-programmers'])
     });
-    */
+    
   });
 });
