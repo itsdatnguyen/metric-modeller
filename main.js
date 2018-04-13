@@ -55,6 +55,12 @@ class MetricModeller {
         fpManMo: 20.89899709,
         locFp: 20.0
       },
+      {
+        name: 'Ruby',
+        level: 7.0,
+        fpManMo: 15.8664339,
+        locFp: 46.0
+      },
     ];
     this.hourlyCost = 318.4;
   }
