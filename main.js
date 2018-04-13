@@ -60,8 +60,8 @@ class MetricModeller {
   }
 
   calculateCost(formData, months) {
-    let monthlyCost = this.hourlyCost * 8 * 5 * 4;
-    return months * formData['number-programmers'] * monthlyCost;
+    let monthlyCost = formData['programmer-pay'] * 8 * 5 * 4;
+    return months * monthlyCost;
   }
 
   calculateLinesOfCode(formData) {
@@ -71,7 +71,7 @@ class MetricModeller {
 
   calcualteBaseMonths(formData) {
     let languageProd = this.languageProd[formData.language];
-    return (formData['number-programmers'] * formData.fps) / languageProd.fpManMo;
+    return formData.fps / formData['number-programmers'] / languageProd.fpManMo;
   }
 
 }
@@ -82,6 +82,7 @@ function getFormData() {
     'fps',
     'language',
     'number-programmers',
+    'programmer-pay',
   ];
 
   for (var id of elementIds) {
