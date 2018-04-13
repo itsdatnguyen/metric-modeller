@@ -93,6 +93,10 @@ function getFormData() {
   return data;
 }
 
+function getCommChannels(devCount) {
+  return (devCount * (devCount - 1) / 2);
+}
+
 function setOutput(output) {
   for (var item in output) {
     var element = document.getElementById(item);
