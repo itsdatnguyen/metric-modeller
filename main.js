@@ -55,11 +55,13 @@ class MetricModeller {
         fpManMo: 20.89899709,
         locFp: 20.0
       },
-    ]
+    ];
+    this.hourlyCost = 318.4;
   }
 
   calculateCost(formData, months) {
-    return months * (formData['number-programmers'] * (formData['programmer-pay'] / 12));
+    let monthlyCost = this.hourlyCost * 8 * 5 * 4;
+    return months * formData['number-programmers'] * monthlyCost;
   }
 
   calculateLinesOfCode(formData) {
@@ -72,96 +74,13 @@ class MetricModeller {
     return (formData['number-programmers'] * formData.fps) / languageProd.fpManMo;
   }
 
-  getAverageDataset() {
-    // create copy of array
-    let data = this.data.slice();
-    let length = data.length;
-
-    // possibly convoluted way of getting database averages.
-    return {
-      language: data.reduce((d, a) => typeof d === 'object' ? d.language + a.language : d + a.language) / length,
-      fps: data.reduce((d, a) => typeof d === 'object' ? d.fps + a.fps : d + a.fps) / length,
-      time: data.reduce((d, a) => typeof d === 'object' ? d.time + a.time : d + a.time) / length,
-      kloc: data.reduce((d, a) => typeof d === 'object' ? d.kloc + a.kloc : d + a.kloc) / length
-    }
-  }
-
-  getEstimatedTime(formData) {
-    let dataset = this.getAverageDataset();
-
-    let time = dataset.time;
-
-    // language productivity. A higher value means less lines of code written for the same functionality.
-    time = time * dataset.language / formData.language;
-
-    // 1000 lines of code
-    time = time * formData.kloc / dataset.kloc;
-
-    // Function points. More function points means a longer project
-    time = time * formData.fps / dataset.fps;
-
-    // Team experience. A more experienced team will be more productive.
-    time = time / formData.experience;
-
-    // Project complexity. A more complex project will take longer to complete.
-    time = time * formData.complexity;
-
-    // Project testing coverage. A project with more testing code coverage will last much more longer.
-    time = time * formData.testing;
-
-    // Time to create queries and to database or setup database
-    time = time * formData['database-complexity'];
-
-    // Effect of group cohesion on time it takes to finish project
-    time = time * formData['group-cohesion'];
-    
-    // Project Software Reliability. A project with more reliable software will shorten time.
-    time = time / formData.reliability;
-
-    time = time / Math.sqrt(formData['number-programmers']);
-
-    time = time + Math.sqrt(getCommChannels(formData['number-programmers']));
-
-    // Version control. A project with no version control and lots of programmer will have a longer duration.
-    if (formData['version-control'] == 'false') {
-      time = time * Math.sqrt(formData['number-programmers'])
-    }
-
-    return time;
-  }
-
-  getEstimatedCost(estimatedTime, formData) {
-    var employeePay = formData['programmer-pay'];
-    var employeeNumber = formData['number-programmers'];
-    var estimatedCost = employeePay * employeeNumber * estimatedTime;
-    return estimatedCost;
-  }
 }
 
 function getFormData() {
   var data = {};
-
-  /*
-  var elementIds = [
-    'kloc',
-    'fps',
-    'language',
-    'experience',
-    'complexity',
-    'testing',
-    'programmer-pay',
-    'number-programmers',
-    'database-complexity',
-    'group-cohesion',
-    'reliability',
-    'version-control',
-  ];
-  */
-
   var elementIds = [
     'fps',
     'language',
-    'programmer-pay',
     'number-programmers',
   ];
 
@@ -172,10 +91,6 @@ function getFormData() {
   }
 
   return data;
-}
-
-function getCommChannels(devCount) {
-  return (devCount * (devCount - 1) / 2);
 }
 
 function setOutput(output) {
@@ -192,19 +107,14 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
 
     var modeller = new MetricModeller();
-
     var data = getFormData();
-    //var estimatedTime = modeller.getEstimatedTime(data);
-    //var estimatedCost = modeller.getEstimatedCost(estimatedTime, data);
     var totalMonths = modeller.calcualteBaseMonths(data);
     var linesOfCode = modeller.calculateLinesOfCode(data);
     var totalCost = modeller.calculateCost(data, totalMonths);
-    console.log(totalMonths, linesOfCode, totalCost);
     
     setOutput({
       'output-hours': totalMonths.toFixed(2),
-      'output-cost': totalCost.toFixed(2),
-      'output-comm-channels': getCommChannels(data['number-programmers'])
+      'output-cost': totalCost.toFixed(2)
     });
     
   });
