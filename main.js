@@ -77,7 +77,32 @@ class MetricModeller {
 
   calcualteBaseMonths(formData) {
     let languageProd = this.languageProd[formData.language];
-    return formData.fps / formData['number-programmers'] / languageProd.fpManMo;
+    let months = formData.fps / formData['number-programmers'] / languageProd.fpManMo;
+
+    // Team experience. A more experienced team will be more productive.
+    months = months / formData.experience;
+
+    // Project complexity. A more complex project will take longer to complete.
+    months = months * formData.complexity;
+
+    // Project testing coverage. A project with more testing code coverage will last much more longer.
+    months = months * formData.testing;
+
+    // months to create queries and to database or setup database
+    months = months * formData['database-complexity'];
+
+    // Effect of group cohesion on months it takes to finish project
+    months = months * formData['group-cohesion'];
+    
+    // Project Software Reliability. A project with more reliable software will increase months.
+    months = months * formData.reliability;
+
+    // Version control. A project with no version control and lots of programmer will have a longer duration.
+    if (formData['version-control'] == 'false') {
+      months = months * Math.sqrt(formData['number-programmers'])
+    }
+
+    return months;
   }
 
 }
@@ -89,6 +114,13 @@ function getFormData() {
     'language',
     'number-programmers',
     'programmer-pay',
+    'group-cohesion',
+    'database-complexity',
+    'experience',
+    'complexity',
+    'testing',
+    'reliability',
+    'version-control'
   ];
 
   for (var id of elementIds) {
